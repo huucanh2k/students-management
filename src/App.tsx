@@ -1,58 +1,65 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import { Box, Button } from "@material-ui/core"
+import React, { useEffect } from "react"
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom"
+import studentApi from "./api/studentApi"
+import { useAppDispatch, useAppSelector } from "./app/hooks"
+import { NotFound, PrivateRoute } from "./components/Common"
+import { AdminLayout } from "./components/Layout"
+import {
+  authActions,
+  selecIsLogOutSuccess,
+  selectIsLoggingSuccess,
+} from "./features/auth/authSlice"
+import LoginPage from "./features/auth/pages/LoginPage"
+import Dashboard from "./features/dashboard"
+import StudentFeature from "./features/student"
+import { AddEditPage } from "./features/student/pages/AddEditPage"
+import ListPage from "./features/student/pages/ListPage"
 
 function App() {
+  const navigate = useNavigate()
+
+  const isLoggingSuccess = useAppSelector(selectIsLoggingSuccess)
+  const isLogOutSuccess = useAppSelector(selecIsLogOutSuccess)
+
+  //Subcript
+  useEffect(() => {
+    console.log("IsLoggingSuccess changed: ", isLoggingSuccess)
+    if (isLoggingSuccess) {
+      console.log("navigate: to admin")
+      navigate("admin/dashboard")
+    }
+  }, [isLoggingSuccess])
+  useEffect(() => {
+    console.log("IsLogOutSuccess changed: ", isLogOutSuccess)
+    if (isLogOutSuccess) {
+      console.log("navigate: to login")
+      navigate("login")
+    }
+  }, [isLogOutSuccess])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
-  );
+    <Routes>
+      <Route path="/" element={<Navigate to="/admin/dashboard" />}></Route>
+      <Route path="/login" element={<LoginPage />} /> //Login
+      <Route
+        path="/admin"
+        element={
+          <PrivateRoute>
+            <AdminLayout />
+          </PrivateRoute>
+        }
+      >
+        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="student" element={<StudentFeature />}>
+          <Route path="add" element={<AddEditPage />} />
+          <Route path=":studentId" element={<AddEditPage />} />
+          <Route path="" element={<ListPage />} />
+        </Route>
+      </Route>
+      <Route path="*" element={<NotFound />} /> //NOT FOUND
+    </Routes>
+  )
 }
 
-export default App;
+export default App
