@@ -91,7 +91,6 @@ function* fetchDashboardData() {
     yield put(dashboardActions.fetchDataSuccess())
   } catch (error) {
     yield put(dashboardActions.fetchDataFailed())
-    console.log("Failed to fetch dashboard data")
   }
 }
 

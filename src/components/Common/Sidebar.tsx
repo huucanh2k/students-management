@@ -42,7 +42,7 @@ export function Siderbar() {
             <ListItemText primary="Dashboard" />
           </ListItem>
         </NavLink>
-        <NavLink to="/admin/student" className={classes.link}>
+        <NavLink to="/admin/students" className={classes.link}>
           <ListItem button>
             <ListItemIcon>
               <PeopleAlt />

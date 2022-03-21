@@ -7,9 +7,17 @@ import {
 } from "@material-ui/core"
 import { Pagination } from "@material-ui/lab"
 import * as React from "react"
+import { Link, useLocation, useNavigate } from "react-router-dom"
+import studentApi from "../../../api/studentApi"
 import { useAppDispatch, useAppSelector } from "../../../app/hooks"
-import StudentFilters from "../components/studentFilters"
-import StudentTable from "../components/studentTable"
+import { ListParams, Student } from "../../../models"
+import {
+  cityActions,
+  selectCityList,
+  selectCityMap,
+} from "../../city/citySlice"
+import StudentFilters from "../components/StudentFilters"
+import StudentTable from "../components/StudentTable"
 import {
   selectStudentFilter,
   selectStudentList,
@@ -45,8 +53,11 @@ export default function ListPage() {
   const filter = useAppSelector(selectStudentFilter)
   const pagination = useAppSelector(selectStudentPagination)
   const loading = useAppSelector(selectStudentLoading)
+  const cityList = useAppSelector(selectCityList)
+  const cityMap = useAppSelector(selectCityMap)
 
-  console.log("Student list: ", studentList)
+  let navigate = useNavigate()
+  let location = useLocation()
 
   React.useEffect(() => {
     dispatch(studentActions.fetchStudentList(filter))
@@ -60,6 +71,26 @@ export default function ListPage() {
       })
     )
   }
+  const handleChangeFilter = (newFilter: ListParams) => {
+    dispatch(studentActions.setFilter(newFilter))
+  }
+
+  const handleSearchChange = (newFilter: ListParams) => {
+    dispatch(studentActions.setFilterWithDebounce(newFilter))
+  }
+
+  const handleRemoveStudent = async (student: Student) => {
+    try {
+      await studentApi.remove(student.id as string)
+      dispatch(studentActions.fetchStudentList({ ...filter }))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleEdit = (student: Student) => {
+    navigate(`${location.pathname}/${student.id}`)
+  }
 
   return (
     <Box className={classes.root}>
@@ -67,16 +98,28 @@ export default function ListPage() {
 
       <Box className={classes.titleContainer}>
         <Typography variant="h5">Students</Typography>
-        <Button variant="contained" color="primary">
-          ADD NEW STUDENT
-        </Button>
+        <Link to="add" style={{ textDecoration: "none" }}>
+          <Button variant="contained" color="primary">
+            ADD NEW STUDENT
+          </Button>
+        </Link>
       </Box>
 
-      <Box mt={3}>
-        <StudentFilters />
+      <Box my={3}>
+        <StudentFilters
+          filter={filter}
+          listCity={cityList}
+          onChange={handleChangeFilter}
+          onSearchChange={handleSearchChange}
+        />
       </Box>
 
-      <StudentTable studentList={studentList} />
+      <StudentTable
+        studentList={studentList}
+        cityMap={cityMap}
+        onRemove={handleRemoveStudent}
+        onEdit={handleEdit}
+      />
       <Box my={2} display="flex" justifyContent="center">
         <Pagination
           color="primary"

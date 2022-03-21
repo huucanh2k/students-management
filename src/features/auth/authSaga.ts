@@ -4,7 +4,6 @@ import { ErrorCallback } from "typescript"
 import { authActions, LoginPayload } from "./authSlice"
 function* handleLogin(action: PayloadAction<LoginPayload>) {
   try {
-    console.log("handle login payload: ", action)
     localStorage.setItem("access_token", "fake_token") //Set access token
     yield delay(1000)
     //redirect to admin page
@@ -22,7 +21,6 @@ function* handleLogin(action: PayloadAction<LoginPayload>) {
 function* handleLogout() {
   delay(500)
   localStorage.removeItem("access_token")
-  console.log("success logout")
   //redirect to login page
 }
 

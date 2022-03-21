@@ -13,7 +13,6 @@ function* fetchCityList() {
 
     yield put(cityActions.fetchCityListSuccess(response))
   } catch (error) {
-    console.log("Fetching city list error")
     yield put(cityActions.fetchCityListFailed())
   }
 }

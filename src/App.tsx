@@ -24,16 +24,12 @@ function App() {
 
   //Subcript
   useEffect(() => {
-    console.log("IsLoggingSuccess changed: ", isLoggingSuccess)
     if (isLoggingSuccess) {
-      console.log("navigate: to admin")
       navigate("admin/dashboard")
     }
   }, [isLoggingSuccess])
   useEffect(() => {
-    console.log("IsLogOutSuccess changed: ", isLogOutSuccess)
     if (isLogOutSuccess) {
-      console.log("navigate: to login")
       navigate("login")
     }
   }, [isLogOutSuccess])
@@ -51,7 +47,7 @@ function App() {
         }
       >
         <Route path="dashboard" element={<Dashboard />} />
-        <Route path="student" element={<StudentFeature />}>
+        <Route path="students" element={<StudentFeature />}>
           <Route path="add" element={<AddEditPage />} />
           <Route path=":studentId" element={<AddEditPage />} />
           <Route path="" element={<ListPage />} />

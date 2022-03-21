@@ -8,14 +8,18 @@ const studentApi = {
       params: params,
     })
   },
+  getById(id: string): Promise<Student> {
+    const url = "/students"
+    return axiosClient.get(`${url}/${id}`)
+  },
 
   add(student: Student): Promise<Student> {
     const url = "/students"
     return axiosClient.post(url, student)
   },
 
-  update(id: string, student: Student): Promise<Student> {
-    const url = `/students/${id}`
+  update(student: Partial<Student>): Promise<Student> {
+    const url = `/students/${student.id}`
     return axiosClient.put(url, student)
   },
 
