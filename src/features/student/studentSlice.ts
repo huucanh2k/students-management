@@ -18,13 +18,13 @@ const initialState: StudentState = {
   loading: false,
   list: [],
   filter: {
-    _limit: 15,
+    _limit: 5,
     _page: 1,
     name_like: "",
   },
   pagination: {
     _page: 1,
-    _limit: 15,
+    _limit: 5,
     _totalRows: 15,
   },
 }

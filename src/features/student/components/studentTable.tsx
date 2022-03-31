@@ -93,7 +93,7 @@ export default function StudentTable({
           </TableHead>
           <TableBody>
             {studentList.map((student, idx) => (
-              <TableRow key={student.id}>
+              <TableRow key={student._id}>
                 <TableCell align="center">{idx + 1}</TableCell>
                 <TableCell>{student.name}</TableCell>
                 <TableCell>{captializeString(student.gender)}</TableCell>

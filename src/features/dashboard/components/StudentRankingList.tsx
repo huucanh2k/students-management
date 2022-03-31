@@ -36,7 +36,7 @@ export default function StudentRankingList({
         </TableHead>
         <TableBody>
           {studentList.map((student, idx) => (
-            <TableRow key={student.id}>
+            <TableRow key={student._id}>
               <TableCell component="th" scope="row" align="center">
                 {idx + 1}
               </TableCell>
