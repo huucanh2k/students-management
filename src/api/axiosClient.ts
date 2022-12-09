@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
 
 //Create axios object
 const axiosClient = axios.create({
-  baseURL: "http://js-post-api.herokuapp.com/api",
+  baseURL: "http://localhost:8080",
   headers: {
     "Content-Type": "application/json",
   },
@@ -16,7 +16,7 @@ axiosClient.interceptors.request.use(
     // Do something before request is sent
     return config
   },
-  function (error) {
+  function (error: any) {
     // Do something with request error
     return Promise.reject(error)
   }
@@ -29,7 +29,7 @@ axiosClient.interceptors.response.use(
     // Do something with response data
     return response.data
   },
-  function (error) {
+  function (error: any) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
     return Promise.reject(error)

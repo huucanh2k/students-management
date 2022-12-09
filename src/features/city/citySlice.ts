@@ -21,6 +21,7 @@ const citySlice = createSlice({
       state.loading = true
     },
     fetchCityListSuccess(state, action: PayloadAction<ListResponse<City>>) {
+      console.log({ action })
       state.loading = false
       state.list = action.payload.data
     },

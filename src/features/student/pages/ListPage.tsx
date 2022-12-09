@@ -81,7 +81,7 @@ export default function ListPage() {
 
   const handleRemoveStudent = async (student: Student) => {
     try {
-      await studentApi.remove(student.id as string)
+      await studentApi.remove(student._id as string)
       dispatch(studentActions.fetchStudentList({ ...filter }))
     } catch (error) {
       console.log(error)
@@ -89,7 +89,7 @@ export default function ListPage() {
   }
 
   const handleEdit = (student: Student) => {
-    navigate(`${location.pathname}/${student.id}`)
+    navigate(`${location.pathname}/${student._id}`)
   }
 
   return (

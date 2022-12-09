@@ -19,7 +19,7 @@ const studentApi = {
   },
 
   update(student: Partial<Student>): Promise<Student> {
-    const url = `/students/${student.id}`
+    const url = `/students/${student._id}`
     return axiosClient.put(url, student)
   },
 
